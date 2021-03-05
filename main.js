@@ -1,108 +1,164 @@
-const game = () => {
-  let playerScore = 0;
-  let ComputerScore = 0;
+// let isGameStarted = false;
 
+const pageFrontScreen = document.querySelector('.page-front');
+const pageBackScreen = document.querySelector('.page-back');
+const playBtn = document.querySelector('.play');
 
-// Rozpoczęcie gry
-const startGame = () => {
-  const playBtn = document.querySelector('.play');
-  const pageFrontScreen = document.querySelector('.page-front');
-  const pageBackScreen = document.querySelector('.page-back');
+playBtn.addEventListener('click', () => {
+  pageFrontScreen.classList.add('fadeOut');
+  pageBackScreen.classList.add('fadeIn');
 
+  // isGameStarted = true;
+  myChoices.classList.add('visible');
+});
 
-  playBtn.addEventListener('click', () => {
-    pageFrontScreen.classList.add('fadeOut');
-    pageBackScreen.classList.add('fadeIn');
-  });
-};
-
-
-
-//Is call all the iiner function
-startGame();
-};
-
-
+let playerScore = 0;
+let computerScore = 0;
+let round = 0;
+let maxRounds = 3;
 const rock = document.querySelector('.rock');
 const scissors = document.querySelector('.scissors');
 const paper = document.querySelector('.paper');
 const object1 = document.querySelector('.object1');
 const object2 = document.querySelector('.object2');
 const object3 = document.querySelector('.object3');
-const options = document.querySelector('.objects');
+const myChoices = document.querySelector('.choices');
+const clear = document.querySelector('.clear'); 
+const playerPoint = document.querySelector('.player-result p')
+const computerPoint = document.querySelector('.computer-result p')
+const winner = document.querySelector('.winner');
+
+  // Give color to icons after player choice and random computer choice
+  
+    const ourChoices = (object) => {
+      object.classList.toggle("colors");
+      drawRandomComputerOption();
+    } 
+    
+   
+  const items = [object1, object2, object3];
+
+  const drawRandomComputerOption = () => {
+      const randomValue = items[Math.floor(Math.random() * 3)];
+      return randomValue.classList.toggle('computer-colors');
+    }
+ // function for computer picking random buttons
+ const getComputerChoice = () => {
+   const elements = ['rock', 'paper', 'scissors'];
+   const randomElements = Math.floor(Math.random() * 3);
+   drawRandomComputerOption();
+   return elements[randomElements];
+   
+ }   
 
 
-const items = [object1, object2, object3];
+ compareResults = (text) => {
+  updateScore()
+  stopIncreasingPoints();
+  drawRandomComputerOption();
+  winner.innerText = text;
+ }
 
-const drawRandomOption = () => {
-  let randomValue = items[Math.floor(Math.random() * items.length)];
-  console.log(randomValue)
-  randomValue.classList.add('computer-colors');
-}
+ // Chceck for who is the winner
+const checkForWinner = (playerSelection) => {
+    console.log(playerSelection, getComputerChoice())
+   // console.log('user choice => ' + playerSelection);
+   if (playerSelection === 'rock' && getComputerChoice() === 'paper') {
+    console.log('Player Win');
+    playerScore++
+    compareResults('Player wins');  
+ } else if (playerSelection === 'rock' && getComputerChoice() === 'scissors') {
+  console.log('Computer Won');
+  computerScore++
+  compareResults('Computer wins');
+ } else if (playerSelection === 'paper' && getComputerChoice() === 'rock') {
+  console.log('Player Win');
+  playerScore++
+  compareResults('Player wins'); 
+ } else if (playerSelection === 'paper' && getComputerChoice() === 'scissors') {
+  console.log('Computer Won');
+  computerScore++
+  compareResults('Computer wins');
+ } else if (playerSelection === 'scissors' && getComputerChoice() === 'paper') {
+  console.log('Player Win');
+  playerScore++;
+  compareResults('Player wins'); 
+ } else if (playerSelection === 'scissors' && getComputerChoice() === 'rock') {
+    console.log('Computer Won');
+    computerScore++;
+    compareResults('Computer wins');
+ } else {
+  console.log('It is a draw');
+  playerScore++;
+  computerScore++;
+  compareResults('It\'s a draw');
+ }
 
-//start the game function
-game();
+ setTimeout(() => clearPicks(), 3000);
+}    
 
-// Dodanie koloru do ikon
-
-
-  const retro = object1.onclick = function() {
-    object1.classList.toggle("colors")
-    drawRandomOption(); 
+  
+  // Clearing our picks with clear button
+  
+  function clearPicks() {
+    object2.classList.remove('colors', 'computer-colors');
+    object3.classList.remove('colors', 'computer-colors');
+    object1.classList.remove('colors', 'computer-colors');
+    updateScore()
+  };
+  
+  // Function when cleared renaming title back to Make your Choice
+  
+  function backName () {
+    winner.innerText = 'Make Your Choice';
   }
   
-  const retro2 = object2.onclick = function() {
-    object2.classList.toggle("colors")
-    drawRandomOption();
-  }
+  // Updating Player or Computer choices
   
-  const retro3 = object3.onclick = function() {
-    object3.classList.toggle("colors")
-    drawRandomOption();
-  } 
+  const updateScore = () => {
+    playerPoint.innerHTML = playerScore;
+    computerPoint.innerHTML = computerScore;
+  }
+
+  // Winning a game function
+   
+   const stopIncreasingPoints = () => {
+    round = round + 1;
+    if (round >= maxRounds && playerScore > computerScore) {
+      round = 0;
+      playerScore = 0;
+      computerScore = 0
+      updateScore();
+      alert("Player won the game");
+    } else if (round >= maxRounds && computerScore > playerScore) {
+      round = 0;
+      playerScore = 0;
+      computerScore = 0;
+      updateScore();
+      alert('Computer won the game');
+    }
+  }
 
 
-/* // Dodanie wyboru komputera
 
-
-const pick = () => {
-  const types = ["object1", "object2", "object3"];
-  const computer_choice = types[Math.floor(Math.random() * (types.length))];
-  object1.classList.toggle("computer-colors") = types[random];
-  object2.classList.toggle("computer-colors") = types[random];
-  object3.classList.toggle("computer-colors") = types[random];
-}
-
-
-
-
-
-
-
-addColorRock.addEventListener('click', () => {
-  getReady();
-  pick();
-});
-
-addColorPaper.addEventListener('click', () => {
-  getReady();
-  pick();
-});
-
-addColorScissors.addEventListener('click', () => {
-  getReady();
-  pick();
-});
-
-
-function getReady() {
-  const types = ["object1", "object2", "object3"];
-  const computer_choice = types[Math.floor(Math.random() * (types.length))];
-  options.classList.toggle("computer-colors") = computer_choice;
-}
-
-addColorRock.addEventListener('click', () => object1.style.backgroundColor = '#c9302c' && getReady()) */
-
-rock.addEventListener('click', retro);
-paper.addEventListener('click', retro2);
-scissors.addEventListener('click', retro3);
+  // Event Listeners
+  rock.addEventListener('click', () => {
+    ourChoices(object1);
+    checkForWinner('rock');
+  });
+  
+  paper.addEventListener('click', () => {
+    ourChoices(object2)
+    checkForWinner('paper');  
+  }); 
+  
+  scissors.addEventListener('click', () => {
+    ourChoices(object3);
+    checkForWinner('scissors');
+  });
+  
+  clear.addEventListener('click', () => {
+    clearPicks();
+    backName();
+  });
+  
