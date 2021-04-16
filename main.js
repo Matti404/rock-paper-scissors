@@ -36,17 +36,14 @@ const items = [object1, object2, object3];
 // Give color to icons after player choice and random computer choice
   
 const ourChoice = (object) => {
-    console.log(object)
     object.classList.toggle("colors");   
 }
 
 const computerChoice = (computerObject) => {
-    console.log(computerObject)
     computerObject.classList.toggle("computer-colors");   
 }
 
 const drawChoice = (drawObject) => {
-    console.log(drawObject)
     drawObject.classList.toggle('draw-colors');
 }  
   
