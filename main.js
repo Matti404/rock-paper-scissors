@@ -3,12 +3,14 @@
 const pageFrontScreen = document.querySelector('.page-front');
 const pageBackScreen = document.querySelector('.page-back');
 const playBtn = document.querySelector('.play');
+const myChoices = document.querySelector('.choices');
 
 playBtn.addEventListener('click', () => {
     pageFrontScreen.classList.add('fadeOut');
     pageBackScreen.classList.add('fadeIn');
 
   // isGameStarted = true;
+
     myChoices.classList.add('visible');
 });
 
@@ -20,7 +22,6 @@ const scissors = document.querySelector('.scissors');
 const object1 = document.querySelector('.object1');
 const object2 = document.querySelector('.object2');
 const object3 = document.querySelector('.object3');
-const myChoices = document.querySelector('.choices');
 const clear = document.querySelector('.clear'); 
 const winner = document.querySelector('.winner');
 const playerPoint = document.querySelector('.player-result p');
@@ -28,10 +29,6 @@ const computerPoint = document.querySelector('.computer-result p');
 const ring = document.querySelector('.lds-ring');
 
 const items = [object1, object2, object3];
-
-// Function player picks his choice
-
-
 
 // Give color to icons after player choice and random computer choice
   
@@ -48,6 +45,7 @@ const drawChoice = (drawObject) => {
 }  
   
  // function for computer picking random buttons
+
 const getComputerChoice = () => {
     const elements = ['rock', 'paper', 'scissors'];
     const randomElements = Math.floor(Math.random() * 3);
@@ -103,37 +101,38 @@ const checkForWinner = (playerSelection) => {
         getResult(object2, object3, 'Computer Wins', computerScore++);
         
     } else if (playerSelection === 'rock' && getComputerChoice() === 'rock') { 
-        drawResult(object1, object1, 'It\'s a draw');
-        computerScore++
-        playerScore++
+            drawResult(object1, object1, 'It\'s a draw');
+            computerScore++
+            playerScore++
     } else if (playerSelection === 'paper' && getComputerChoice() === 'paper') {    
-        drawResult(object2, object2, 'It\'s a draw');
-        computerScore++
-        playerScore++
+            drawResult(object2, object2, 'It\'s a draw');
+            computerScore++
+            playerScore++
     } else { 
-        drawResult(object3, object3, 'It\'s a draw');
-        computerScore++
-        playerScore++
+            drawResult(object3, object3, 'It\'s a draw');
+            computerScore++
+            playerScore++
     }
     setTimeout(() => clearPicks(), 2000);
 }
+
   if (playerScore == 5) {
-      game = false;
-      alert('Player has won the game')
-      showLoader()
-      resetGame();
+        game = false;
+        alert('Player has won the game');
+        showLoader();
+        resetGame();
     
   } else if (computerScore == 5) {
-      alert('Computer has won the game')
-      game = false;
-      showLoader()
-      resetGame();
+        alert('Computer has won the game');
+        game = false;
+        showLoader();
+        resetGame();
     
-  } else if (playerScore == 6 && computerScore == 5) {
-      alert('It\'s a draw')
-      game = false;
-      showLoader();
-      resetGame();
+  } else if (playerScore == 5 && computerScore == 5) {
+        alert('It\'s a draw');
+        game = false;
+        showLoader();
+        resetGame();
 }
 
 }
@@ -164,14 +163,14 @@ const clearPicks = () => {
 };
 
 
-// Function when cleared renaming title back to Make your Choice
+// Function when cleared- renaming title back to "Make your Choice"
   
 function backName () {
     winner.innerText = 'Make Your Choice';
 }
 
 
-  // Event Listeners
+// Event Listeners
 
 rock.addEventListener('click', () => {
       getComputerChoice();
